@@ -1,39 +1,33 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { NextPage } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import { ClerkProvider, useUser, SignIn, SignedOut } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
+
+
 import { api } from "~/utils/api";
 
-const Home = () => {
-  const { data: session, status } = useSession();
+const Home: NextPage = () => {
+  const hello = api.example.hello.useQuery({ text: "from tRPC:"});
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+  const user = useUser();
 
   return (
-    <main>
-      <h1>Hello</h1>
-      <div>
-        {session ? (
-          <>
-          <p>hi {session.user?.name}</p>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => {
-              signOut().catch(console.log);
-            }}
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => {
-              signIn('discord').catch(console.log);
-            }}
-          >
-          Login with Discord
-          </button> 
-        )}
-      </div>
-    </main>
+    <>
+      <Head>
+        <title>Next.js + tRPC + Clerk</title>
+        <meta name="description" content="Next.js + tRPC + Clerk" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+        <div>
+          {! user.isSignedIn && <SignInButton />}{!! user.isSignedIn && <SignOutButton />}
+          
+        </div>
+        <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
+      </main>
+    </>
   );
 };
 
