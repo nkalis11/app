@@ -11,6 +11,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+    id        Int      @id @default(autoincrement())
+    email     String   @unique
+    firstName String?
+    lastName  String?
+    password  String?
+    clerkId   String?  @unique
+}
 
  model Post {
     id        String @id @default(cuid())
