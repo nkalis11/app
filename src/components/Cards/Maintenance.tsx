@@ -1,7 +1,8 @@
 import React, {useState } from "react";
 
 import { api } from "~/utils/api";
-import type { TaskCreateInput, TaskDeleteInput } from "~/server/api/routers/tasks";
+import { TaskCreateInput, TaskDeleteInput } from "~/server/api/routers/tasks";
+
 
 const Maintenance = () => {
   const { data } = api.tasks.getAll.useQuery();
@@ -13,21 +14,22 @@ const Maintenance = () => {
     const [assigneeId, setAssigneeId] = useState("");
 
     const handleCreateTask = () => {
-        createTaskMutation.mutate({ input: { title, content, assigneeId } }, {
-          onSuccess: () => {
-            setTitle("");
-            setContent("");
-            setAssigneeId("");
-          },
+        const input = TaskCreateInput.parse({
+          title,
+          content,
+          assigneeId,
         });
+      
+        createTaskMutation.mutate({ input });
       };
+      
       const handleDeleteTask = (id: string) => {
-        deleteTaskMutation.mutate({ id: id }, {
-          onSuccess: () => {
-            // handle success
-          },
-        });
+        const input = TaskDeleteInput.parse({ id });
+      
+        deleteTaskMutation.mutate({ input });
       };
+      
+
 
   return (
     <> 
