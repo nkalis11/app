@@ -29,11 +29,10 @@ model User {
     @@index([authorId])
  }
  model Task {
-    id        String @id @default(cuid())
+    id        String @id 
     createdAt DateTime @default(now())
-    title     String @db.VarChar(255)
-    content   String @db.VarChar(255)
+    title     String 
+    content   String 
     assigneeId  String
 
-    @@index([assigneeId])
  }

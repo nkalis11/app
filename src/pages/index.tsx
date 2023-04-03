@@ -32,7 +32,7 @@ const Home: NextPage = () => {
       </Head>
       <div className="flex min-h-screen">
         <Sidebar />
-        <main className="flex flex-col w-full bg-black">
+        <main className="flex flex-col w-full bg-white">
           <Header />
           <div>
             {!user.isSignedIn && <SignInButton />}
