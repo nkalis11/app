@@ -12,17 +12,21 @@ const Maintenance = () => {
     const [content, setContent] = useState("");
     const [assigneeId, setAssigneeId] = useState("");
 
-    const handleCreateTask = async () => {
-        const result = await createTaskMutation.mutateAsync({
-          input: { title, content, assigneeId },
+    const handleCreateTask = () => {
+        createTaskMutation.mutate({ input: { title, content, assigneeId } }, {
+          onSuccess: () => {
+            setTitle("");
+            setContent("");
+            setAssigneeId("");
+          },
         });
-        setTitle("");
-        setContent("");
-        setAssigneeId("");
       };
-
       const handleDeleteTask = (id: string) => {
-        deleteTaskMutation.mutate({ id });
+        deleteTaskMutation.mutate({ id: id }, {
+          onSuccess: () => {
+            // handle success
+          },
+        });
       };
 
   return (
