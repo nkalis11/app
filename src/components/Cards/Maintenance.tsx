@@ -1,51 +1,28 @@
 import React, {useState } from "react";
 
 import { api } from "~/utils/api";
-import type { TaskCreateInput, TaskDeleteInput } from "~/server/api/routers/tasks";
+
+type NewTask = {
+  title: string;
+  content: string;
+  assigneeId: string;
+};
 
 const Maintenance = () => {
-  const { data } = api.tasks.getAll.useQuery();
-  const createTaskMutation = api.tasks.createTask.useMutation();
-  const deleteTaskMutation = api.tasks.deleteTask.useMutation();
-
-  const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [assigneeId, setAssigneeId] = useState("");
-
-    const handleCreateTask = async () => {
-        const result = await createTaskMutation.mutateAsync({
-          input: { title, content, assigneeId },
-        });
-        setTitle("");
-        setContent("");
-        setAssigneeId("");
-      };
-
-      const handleDeleteTask = (id: string) => {
-        deleteTaskMutation.mutate({ id });
-      };
+  const { data, refetch } = api.tasks.getAll.useQuery();
 
   return (
-    <> 
-    <div className="mb-4">
-        <input className="mr-2" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
-        <input className="mr-2" type="text" placeholder="Content" value={content} onChange={(e) => setContent(e.target.value)}/>
-        <input className="mr-2" type="text" placeholder="Asignee" value={assigneeId} onChange={(e) => setAssigneeId(e.target.value)}/>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleCreateTask}>
-            Add Task
-        </button>
-    </div>
-
+    <>
       {data?.map((task) => (
-        <div key={task.id} className="max-w-sm rounded overflow-hidden shadow-lg mb-4 flex flex-row bg-red-500">
+        <div
+          key={task.id}
+          className="max-w-sm rounded overflow-hidden shadow-lg mb-4 flex flex-row bg-slate-200"
+        >
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2">{task.title}</div>
             <p className="font-light text=gray-700 text-base">{task.content}</p>
             <h2>Assigned to: {task.assigneeId}</h2>
           </div>
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDeleteTask(task.id)}>
-            Delete
-          </button>
         </div>
       ))}
     </>
