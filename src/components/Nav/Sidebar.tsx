@@ -16,27 +16,26 @@ const DisplayUser = () => {
 };
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
   const user = useUser();
-
-  const handleToggleClick = () => {
-    setIsOpen(!isOpen);
-  };
 
   return (
     <>
-      <button className="fixed top-0 left-0 m-4 p-2 rounded-full bg-indigo-500 text-white z-50" onClick={handleToggleClick}>
-        {isOpen ? 'Close' : 'Open'}
-      </button>
-      <div className={`fixed top-0 flex flex-col w-56 bg-zinc-100 h-screen transition-all duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className="flex flex-col w-56 bg-zinc-100 h-screen transition-all duration-300" >
         <div className="flex items-center justify-center h-20 bg-indigo-500">
           <h1 className="text-3xl uppercase text-white">SKED</h1>
         </div>
         <div className="flex flex-col h-full bg-gray-50 border-r-2 border-gray-100 shadow-[0_15px_30px_-15px_rgba(0,0,0,0.1)]">
-          <ul className="flex flex-col py-4 items-center">
+          <ul className="flex flex-col py-4 items-center hover:text-white">
             <li>
-              <Link href="/" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 hover:bg-blue-700 rounded-lg px-5 py-2.5 mr-2 mb-2">
+              <Link href="/" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 focus:bg-blue-500 focus:text-white hover:text-white hover:bg-blue-700 rounded-lg px-5 py-2.5 mr-2 mb-2">
                 <span className="text-sm font-medium">Dashboard</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/">
+                <div className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:bg-blue-700 rounded-lg px-5 py-2.5 mr-2 mb-2 focus:bg-blue-500  focus:text-white hover:text-white">
+                  <span className="text-sm font-medium">Calendar</span>
+                </div>
               </Link>
             </li>
           </ul>

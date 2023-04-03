@@ -28,3 +28,12 @@ model User {
 
     @@index([authorId])
  }
+ model Task {
+    id        String @id @default(cuid())
+    createdAt DateTime @default(now())
+    title     String @db.VarChar(255)
+    content   String @db.VarChar(255)
+    assigneeId  String
+
+    @@index([assigneeId])
+ }
